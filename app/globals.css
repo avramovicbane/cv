@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
+/* Manual (class-based) dark mode instead of the OS-preference media query,
+   so the ThemeToggle button can switch it directly. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -15,17 +24,13 @@
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
 /* ---------------------------------------------------------------------
@@ -80,9 +85,44 @@ body {
   animation: blob-float 18s ease-in-out infinite;
 }
 
+@keyframes bounce-down {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+}
+
+.scroll-cue {
+  animation: bounce-down 2s ease-in-out infinite;
+}
+
+@keyframes spin-in {
+  from {
+    transform: rotate(-90deg) scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.theme-icon {
+  animation: spin-in 0.4s ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .blob,
-  .gradient-text {
-    animation: none;
+  .gradient-text,
+  .scroll-cue,
+  .theme-icon,
+  body {
+    animation: none !important;
+    transition: none !important;
   }
 }

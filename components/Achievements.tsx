@@ -1,5 +1,6 @@
 import { achievements } from "@/lib/site-config";
 import Reveal from "@/components/Reveal";
+import TiltCard from "@/components/TiltCard";
 
 const ACCENTS = [
   "from-indigo-500 to-violet-500",
@@ -18,19 +19,21 @@ export default function Achievements() {
       <div className="grid gap-4 sm:grid-cols-3">
         {achievements.map((item, i) => (
           <Reveal key={item.title} delay={i * 100} className="h-full">
-            <div className="group h-full overflow-hidden rounded-xl border border-zinc-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-900/5 dark:border-zinc-800 dark:hover:shadow-black/30">
-              <div
-                className={`h-1 w-full bg-linear-to-r ${ACCENTS[i % ACCENTS.length]}`}
-              />
-              <div className="p-5">
-                <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                  {item.description}
-                </p>
+            <TiltCard className="h-full">
+              <div className="group h-full overflow-hidden rounded-xl border border-zinc-200 bg-white/60 backdrop-blur-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950/60 dark:hover:shadow-black/30">
+                <div
+                  className={`h-1 w-full bg-linear-to-r ${ACCENTS[i % ACCENTS.length]}`}
+                />
+                <div className="p-5">
+                  <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    {item.description}
+                  </p>
+                </div>
               </div>
-            </div>
+            </TiltCard>
           </Reveal>
         ))}
       </div>

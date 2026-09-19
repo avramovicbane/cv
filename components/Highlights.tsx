@@ -11,7 +11,7 @@ const ACCENTS = [
 
 export default function Highlights() {
   return (
-    <section className="relative overflow-hidden border-y border-zinc-800/10 bg-zinc-50 dark:border-zinc-100/10 dark:bg-zinc-900/40">
+    <section className="relative overflow-hidden border-y border-zinc-800/10 bg-zinc-50/70 backdrop-blur-sm dark:border-zinc-100/10 dark:bg-zinc-900/40">
       <div className="mx-auto grid max-w-4xl grid-cols-2 gap-6 px-6 py-10 sm:grid-cols-4">
         {highlights.map((item, i) => (
           <Reveal key={item.label} delay={i * 100}>

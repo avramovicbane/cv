@@ -1,11 +1,21 @@
+"use client";
+
+import { useState } from "react";
 import { site } from "@/lib/site-config";
 import Reveal from "@/components/Reveal";
 
 export default function Hero() {
+  const [spot, setSpot] = useState<{ x: number; y: number } | null>(null);
+
   return (
     <section
       id="top"
-      className="relative mx-auto flex max-w-4xl flex-col gap-4 overflow-hidden px-6 pt-16 pb-12 sm:pt-24 sm:pb-16"
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setSpot({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      }}
+      onMouseLeave={() => setSpot(null)}
+      className="relative mx-auto flex max-w-4xl flex-col gap-4 overflow-hidden px-6 pt-16 pb-16 sm:pt-24 sm:pb-24"
     >
       {/* Decorative animated color blobs */}
       <div
@@ -19,6 +29,18 @@ export default function Hero() {
       <div
         className="blob bottom-0 left-1/3 h-56 w-56 bg-cyan-300/30 [animation-delay:-11s] dark:bg-cyan-500/20"
         aria-hidden
+      />
+
+      {/* Cursor-following spotlight */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+        style={{
+          opacity: spot ? 1 : 0,
+          background: spot
+            ? `radial-gradient(500px circle at ${spot.x}px ${spot.y}px, rgba(168, 85, 247, 0.12), transparent 60%)`
+            : undefined,
+        }}
       />
 
       <Reveal>
@@ -67,6 +89,24 @@ export default function Hero() {
           </a>
         </div>
       </Reveal>
+
+      <a
+        href="#about"
+        aria-label="Scroll to About section"
+        className="scroll-cue mx-auto mt-6 flex h-8 w-8 items-center justify-center rounded-full border border-zinc-300 text-zinc-400 transition-colors hover:border-indigo-400 hover:text-indigo-500 dark:border-zinc-700 dark:text-zinc-500"
+      >
+        <svg
+          className="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
+      </a>
     </section>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { site } from "@/lib/site-config";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const NAV_LINKS = [
   { href: "#about", label: "About" },
@@ -14,12 +15,33 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string>("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = NAV_LINKS.map((link) =>
+      document.querySelector(link.href),
+    ).filter((el): el is Element => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActive(`#${entry.target.id}`);
+          }
+        }
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: 0 },
+    );
+
+    sections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -42,20 +64,33 @@ export default function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="group relative py-1 transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+              className={`group relative py-1 transition-colors ${
+                active === link.href
+                  ? "text-zinc-900 dark:text-zinc-50"
+                  : "hover:text-zinc-900 dark:hover:text-zinc-50"
+              }`}
             >
               {link.label}
-              <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 bg-linear-to-r from-indigo-500 via-fuchsia-500 to-pink-500 transition-transform duration-300 ease-out group-hover:scale-x-100" />
+              <span
+                className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left bg-linear-to-r from-indigo-500 via-fuchsia-500 to-pink-500 transition-transform duration-300 ease-out ${
+                  active === link.href
+                    ? "scale-x-100"
+                    : "scale-x-0 group-hover:scale-x-100"
+                }`}
+              />
             </a>
           ))}
         </nav>
-        <a
-          href={site.resumeFile}
-          className="rounded-full bg-linear-to-r from-indigo-500 via-fuchsia-500 to-pink-500 bg-[length:150%_100%] bg-left px-4 py-1.5 text-sm font-medium text-white transition-all duration-300 ease-out hover:bg-right hover:shadow-lg hover:shadow-fuchsia-500/30"
-          download
-        >
-          Résumé
-        </a>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <a
+            href={site.resumeFile}
+            className="rounded-full bg-linear-to-r from-indigo-500 via-fuchsia-500 to-pink-500 bg-[length:150%_100%] bg-left px-4 py-1.5 text-sm font-medium whitespace-nowrap text-white transition-all duration-300 ease-out hover:bg-right hover:shadow-lg hover:shadow-fuchsia-500/30"
+            download
+          >
+            Download CV
+          </a>
+        </div>
       </div>
     </header>
   );
