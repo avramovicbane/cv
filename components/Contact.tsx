@@ -37,6 +37,11 @@ export default function Contact() {
           LinkedIn
         </a>
       </div>
+      {site.phone && (
+        <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-500">
+          <a href={`tel:${site.phone.replace(/\s+/g, "")}`}>{site.phone}</a>
+        </p>
+      )}
     </section>
   );
 }

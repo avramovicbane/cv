@@ -13,7 +13,7 @@ export default function Hero() {
         {site.name}
       </h1>
       <h2 className="text-xl font-medium text-zinc-600 dark:text-zinc-400">
-        {site.role}
+        {site.role} · {site.roleDetail}
       </h2>
       <p className="max-w-xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
         {site.tagline}
