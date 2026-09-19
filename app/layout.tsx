@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site-config";
+import ScrollProgress from "@/components/ScrollProgress";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,7 +11,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="scroll-smooth antialiased">
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <ScrollProgress />
+        {children}
+      </body>
     </html>
   );
 }

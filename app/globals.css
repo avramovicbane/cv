@@ -27,3 +27,62 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* ---------------------------------------------------------------------
+   Color + motion accents
+   ------------------------------------------------------------------- */
+
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -30px) scale(1.15);
+  }
+  66% {
+    transform: translate(-30px, 20px) scale(0.9);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-text {
+  background-image: linear-gradient(
+    90deg,
+    #6366f1,
+    #a855f7,
+    #ec4899,
+    #6366f1
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 7s ease-in-out infinite;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+  animation: blob-float 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob,
+  .gradient-text {
+    animation: none;
+  }
+}
