@@ -1,70 +1,98 @@
 @import "tailwindcss";
 
-/* Manual (class-based) dark mode instead of the OS-preference media query,
-   so the ThemeToggle button can switch it directly. */
+/* Manual (class-based) dark mode, switched by the ThemeToggle button. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ---------------------------------------------------------------------
+   Design tokens — light by default, .dark on <html> for dark
+   ------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --surface-2: #eef0f7;
+  --ink: #0c1120;
+  --ink-2: #3a4257;
+  --muted: #6a7288;
+  --line: #e2e5ee;
+  --accent: #4f46e5;
+  --accent-ink: #4338ca;
+  --accent-soft: #eceafe;
+  --good: #047857;
+  --good-soft: #d9f5ea;
+  --shadow: 0 1px 2px rgb(12 17 32 / 0.04), 0 8px 24px -8px rgb(12 17 32 / 0.08);
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --bg: #070910;
+  --surface: #0e121d;
+  --surface-2: #151b2a;
+  --ink: #eef1f8;
+  --ink-2: #b8c0d4;
+  --muted: #8a93aa;
+  --line: #1f2638;
+  --accent: #8b8dfc;
+  --accent-ink: #a5a7ff;
+  --accent-soft: #1b1e3d;
+  --good: #34d399;
+  --good-soft: #0f2e25;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-display:
+    "Bricolage Grotesque Variable", "Inter Variable", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --shadow-card: var(--shadow);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  transition:
-    background-color 0.4s ease,
-    color 0.4s ease;
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
 }
 
 /* ---------------------------------------------------------------------
-   Color + motion accents
+   Decorative helpers
    ------------------------------------------------------------------- */
-
-@keyframes blob-float {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(40px, -30px) scale(1.15);
-  }
-  66% {
-    transform: translate(-30px, 20px) scale(0.9);
-  }
-}
-
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
 .gradient-text {
   background-image: linear-gradient(
-    90deg,
+    100deg,
     #6366f1,
     #a855f7,
     #ec4899,
@@ -74,15 +102,115 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: gradient-shift 7s ease-in-out infinite;
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+
+.gradient-border {
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(120deg, #6366f1, #a855f7, #ec4899) border-box;
+  border: 1px solid transparent;
 }
 
 .blob {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(70px);
+  filter: blur(80px);
   pointer-events: none;
-  animation: blob-float 18s ease-in-out infinite;
+  animation: blob-float 20s ease-in-out infinite;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 75%);
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.float-y {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+.scroll-cue {
+  animation: bounce-down 2s ease-in-out infinite;
+}
+
+.theme-icon {
+  animation: spin-in 0.4s ease-out;
+}
+
+/* ---------------------------------------------------------------------
+   Keyframes
+   ------------------------------------------------------------------- */
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -30px) scale(1.12);
+  }
+  66% {
+    transform: translate(-30px, 20px) scale(0.92);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
 }
 
 @keyframes bounce-down {
@@ -97,10 +225,6 @@ body {
   }
 }
 
-.scroll-cue {
-  animation: bounce-down 2s ease-in-out infinite;
-}
-
 @keyframes spin-in {
   from {
     transform: rotate(-90deg) scale(0.5);
@@ -112,17 +236,63 @@ body {
   }
 }
 
-.theme-icon {
-  animation: spin-in 0.4s ease-out;
+@keyframes pop-in {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-pop-in {
+  animation: pop-in 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+}
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out both;
+}
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blob,
-  .gradient-text,
-  .scroll-cue,
-  .theme-icon,
-  body {
-    animation: none !important;
-    transition: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

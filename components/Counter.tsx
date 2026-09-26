@@ -3,13 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Animates a numeric value like "67%", "10+" or "3" counting up from 0
- * once it scrolls into view. Non-numeric strings are rendered as-is.
+ * Counts a value like "67%", "~50%", "500+" or "€200K+" up from 0 once it
+ * scrolls into view. The prefix/suffix around the number stay fixed.
  */
-export default function Counter({ value }: { value: string }) {
-  const match = value.match(/^(\d+)(.*)$/);
-  const target = match ? parseInt(match[1], 10) : null;
-  const suffix = match ? match[2] : "";
+export default function Counter({
+  value,
+  duration = 1400,
+}: {
+  value: string;
+  duration?: number;
+}) {
+  const match = value.match(/^([^\d]*)(\d+)(.*)$/);
+  const prefix = match?.[1] ?? "";
+  const target = match ? parseInt(match[2], 10) : null;
+  const suffix = match?.[3] ?? "";
 
   const [display, setDisplay] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
@@ -22,37 +29,43 @@ export default function Counter({ value }: { value: string }) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          const duration = 1200;
-          const start = performance.now();
+        if (!entry.isIntersecting || started.current) return;
+        started.current = true;
+        observer.disconnect();
 
-          const tick = (now: number) => {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setDisplay(Math.round(eased * target));
-            if (progress < 1) requestAnimationFrame(tick);
-          };
-
-          requestAnimationFrame(tick);
-          observer.disconnect();
+        const reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (reduce) {
+          setDisplay(target);
+          return;
         }
+
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setDisplay(Math.round(eased * target));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
       },
       { threshold: 0.5 },
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [target]);
+  }, [target, duration]);
 
-  if (target === null) {
-    return <span>{value}</span>;
-  }
+  if (target === null) return <span>{value}</span>;
 
   return (
-    <span ref={ref}>
-      {display}
-      {suffix}
+    <span ref={ref} aria-label={value}>
+      <span aria-hidden>
+        {prefix}
+        {display}
+        {suffix}
+      </span>
     </span>
   );
 }

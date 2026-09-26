@@ -1,53 +1,51 @@
-import { skills } from "@/lib/site-config";
+import { languages, skills } from "@/lib/site-config";
 import Reveal from "@/components/Reveal";
 
-const CATEGORY_ACCENTS: Record<string, string> = {
-  Product:
-    "bg-indigo-100 text-indigo-700 hover:bg-indigo-200 dark:bg-indigo-500/15 dark:text-indigo-300 dark:hover:bg-indigo-500/25",
-  Agile:
-    "bg-fuchsia-100 text-fuchsia-700 hover:bg-fuchsia-200 dark:bg-fuchsia-500/15 dark:text-fuchsia-300 dark:hover:bg-fuchsia-500/25",
-  "Data & AI":
-    "bg-cyan-100 text-cyan-700 hover:bg-cyan-200 dark:bg-cyan-500/15 dark:text-cyan-300 dark:hover:bg-cyan-500/25",
-  Tools:
-    "bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:hover:bg-amber-500/25",
-  Languages:
-    "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:hover:bg-emerald-500/25",
-};
-
-const DEFAULT_ACCENT =
-  "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800";
+const DOTS = ["bg-indigo-500", "bg-fuchsia-500", "bg-cyan-500", "bg-amber-500", "bg-emerald-500"];
 
 export default function Skills() {
   return (
-    <section id="skills" className="mx-auto max-w-4xl px-6 py-10">
-      <Reveal>
-        <h2 className="mb-6 text-sm font-semibold tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
-          Skills
-        </h2>
-      </Reveal>
-      <div className="flex flex-col gap-5">
-        {skills.map((group, i) => (
-          <Reveal key={group.category} delay={i * 80}>
-            <div>
-              <h3 className="mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+    <div className="grid gap-4 md:grid-cols-2">
+      {skills.map((group, i) => (
+        <Reveal
+          key={group.category}
+          delay={i * 70}
+          className="h-full"
+        >
+          <div className="group h-full rounded-2xl border border-line bg-surface p-6 transition-all duration-300 hover:border-accent/40 hover:shadow-card">
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2.5 font-display text-lg font-semibold text-ink">
+                <span className={`h-2.5 w-2.5 rounded-full ${DOTS[i % DOTS.length]}`} />
                 {group.category}
               </h3>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className={`rounded-full px-3 py-1 text-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm ${
-                      CATEGORY_ACCENTS[group.category] ?? DEFAULT_ACCENT
-                    }`}
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
+              <span className="font-mono text-xs text-muted">{String(group.items.length).padStart(2, "0")}</span>
             </div>
-          </Reveal>
-        ))}
-      </div>
-    </section>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {group.items.map((item) => (
+                <li
+                  key={item}
+                  className="rounded-full border border-line bg-surface-2/60 px-3 py-1.5 text-sm text-ink-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent-soft hover:text-accent-ink"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+      ))}
+      <Reveal delay={skills.length * 70} className="h-full">
+        <div className="h-full rounded-2xl border border-dashed border-line p-6">
+          <h3 className="font-display text-lg font-semibold text-ink">Languages</h3>
+          <ul className="mt-5 space-y-2 text-ink-2">
+            {languages.map((l) => (
+              <li key={l} className="flex items-center gap-2 text-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                {l}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Reveal>
+    </div>
   );
 }

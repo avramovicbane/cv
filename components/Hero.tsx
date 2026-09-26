@@ -1,109 +1,107 @@
-"use client";
-
-import { useState } from "react";
-import { site } from "@/lib/site-config";
+import { hero, site, BASE_PATH } from "@/lib/site-config";
 import Reveal from "@/components/Reveal";
+import HeroWorkflowCard from "@/components/HeroWorkflowCard";
+import { ArrowRight, Download, GitHub, LinkedIn, Mail } from "@/components/Icons";
 
 export default function Hero() {
-  const [spot, setSpot] = useState<{ x: number; y: number } | null>(null);
-
   return (
-    <section
-      id="top"
-      onMouseMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setSpot({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-      }}
-      onMouseLeave={() => setSpot(null)}
-      className="relative mx-auto flex max-w-4xl flex-col gap-4 overflow-hidden px-6 pt-16 pb-16 sm:pt-24 sm:pb-24"
-    >
-      {/* Decorative animated color blobs */}
-      <div
-        className="blob -top-24 -left-24 h-72 w-72 bg-indigo-400/40 dark:bg-indigo-500/30"
-        aria-hidden
-      />
-      <div
-        className="blob top-10 -right-20 h-72 w-72 bg-pink-400/30 [animation-delay:-6s] dark:bg-fuchsia-500/20"
-        aria-hidden
-      />
-      <div
-        className="blob bottom-0 left-1/3 h-56 w-56 bg-cyan-300/30 [animation-delay:-11s] dark:bg-cyan-500/20"
-        aria-hidden
-      />
-
-      {/* Cursor-following spotlight */}
+    <section id="top" className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+      {/* Backdrop: grid, abstract mesh texture and drifting color blobs */}
+      <div aria-hidden className="grid-bg pointer-events-none absolute inset-0 opacity-70" />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 opacity-30 dark:opacity-20"
         style={{
-          opacity: spot ? 1 : 0,
-          background: spot
-            ? `radial-gradient(500px circle at ${spot.x}px ${spot.y}px, rgba(168, 85, 247, 0.12), transparent 60%)`
-            : undefined,
+          backgroundImage: `url(${BASE_PATH}/background.webp)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          maskImage: "linear-gradient(to bottom, black 40%, transparent)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 40%, transparent)",
         }}
       />
+      <div aria-hidden className="blob -top-32 -left-24 h-96 w-96 bg-indigo-400/30 dark:bg-indigo-600/25" />
+      <div
+        aria-hidden
+        className="blob top-20 -right-24 h-96 w-96 bg-fuchsia-300/30 [animation-delay:-7s] dark:bg-fuchsia-600/15"
+      />
 
-      <Reveal>
-        <p className="text-sm font-medium tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
-          {site.location}
-        </p>
-      </Reveal>
-      <Reveal delay={80}>
-        <h1 className="gradient-text text-4xl font-bold tracking-tight sm:text-5xl">
-          {site.name}
-        </h1>
-      </Reveal>
-      <Reveal delay={160}>
-        <h2 className="text-xl font-medium text-zinc-600 dark:text-zinc-400">
-          {site.role} · {site.roleDetail}
-        </h2>
-      </Reveal>
-      <Reveal delay={240}>
-        <p className="max-w-xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-          {site.tagline}
-        </p>
-      </Reveal>
-      <Reveal delay={320}>
-        <div className="mt-2 flex flex-wrap gap-3">
-          <a
-            href={`mailto:${site.email}`}
-            className="rounded-full bg-linear-to-r from-indigo-500 via-fuchsia-500 to-pink-500 bg-[length:150%_100%] bg-left px-5 py-2 text-sm font-medium text-white transition-all duration-300 ease-out hover:scale-105 hover:bg-right hover:shadow-lg hover:shadow-fuchsia-500/30"
-          >
-            Get in touch
-          </a>
-          <a
-            href={site.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-zinc-300 px-5 py-2 text-sm font-medium text-zinc-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-400 hover:text-indigo-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-indigo-400 dark:hover:text-indigo-400"
-          >
-            GitHub
-          </a>
-          <a
-            href={site.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-zinc-300 px-5 py-2 text-sm font-medium text-zinc-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-fuchsia-400 hover:text-fuchsia-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-fuchsia-400 dark:hover:text-fuchsia-400"
-          >
-            LinkedIn
-          </a>
+      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+        <div>
+          <Reveal>
+            <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/70 py-1.5 pr-4 pl-2.5 text-xs font-medium text-ink-2 backdrop-blur">
+              <span className="relative flex h-2 w-2 text-good">
+                <span className="pulse-dot relative h-2 w-2 rounded-full bg-good" />
+              </span>
+              {hero.eyebrow} · {site.location.split(",")[0]}
+            </p>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <h1 className="mt-6 font-display text-[2.6rem] leading-[1.02] font-semibold tracking-tight text-balance text-ink sm:text-6xl lg:text-7xl">
+              {hero.headlineStart}{" "}
+              <span className="gradient-text font-serif font-normal italic">
+                {hero.headlineAccent}
+              </span>
+            </h1>
+          </Reveal>
+
+          <Reveal delay={160}>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-pretty text-ink-2 sm:text-lg">
+              Hi, I&apos;m {site.firstName}, {site.role} at Intellya. {hero.intro}
+            </p>
+          </Reveal>
+
+          <Reveal delay={240}>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href="#impact"
+                className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-medium text-bg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/25"
+              >
+                See the impact
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </a>
+              <a
+                href={site.cvFile}
+                download={site.cvDownloadName}
+                className="group inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-5 py-3 text-sm font-medium text-ink backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50"
+              >
+                <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+                Download CV
+              </a>
+              <div className="flex items-center gap-1 pl-1">
+                {[
+                  { href: site.social.linkedin, label: "LinkedIn", Icon: LinkedIn },
+                  { href: site.social.github, label: "GitHub", Icon: GitHub },
+                  { href: `mailto:${site.email}`, label: "Email", Icon: Mail },
+                ].map(({ href, label, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    title={label}
+                    target={href.startsWith("http") ? "_blank" : undefined}
+                    rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="flex h-10 w-10 items-center justify-center rounded-full text-muted transition-all duration-300 hover:-translate-y-0.5 hover:bg-surface hover:text-ink"
+                  >
+                    <Icon className="h-[18px] w-[18px]" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
-      </Reveal>
+
+        <Reveal delay={200} className="mx-auto w-full max-w-md lg:max-w-none">
+          <HeroWorkflowCard />
+        </Reveal>
+      </div>
 
       <a
-        href="#about"
-        aria-label="Scroll to About section"
-        className="scroll-cue mx-auto mt-6 flex h-8 w-8 items-center justify-center rounded-full border border-zinc-300 text-zinc-400 transition-colors hover:border-indigo-400 hover:text-indigo-500 dark:border-zinc-700 dark:text-zinc-500"
+        href="#impact"
+        aria-label="Scroll to impact"
+        className="scroll-cue relative mx-auto mt-16 hidden h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition-colors hover:text-ink sm:flex"
       >
-        <svg
-          className="h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d="M12 5v14M5 12l7 7 7-7" />
         </svg>
       </a>
