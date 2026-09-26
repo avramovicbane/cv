@@ -6,18 +6,17 @@ Pages.
 
 **Live site:** https://avramovicbane.github.io/cv/
 
-## What's on the site
+## Pages
 
-- **Hero** — an animated, illustrative SME credit workflow (60 → 20 days).
-- **Impact** — headline metrics and two interactive before/after case studies.
-- **What I do** — the four parts of the job: win, build, lead, fix.
-- **How I work** — the client lifecycle and the two-week sprint, as
-  auto-playing, clickable loops.
-- **Journey** — the career as "release notes", v1.0 → v6.0.
-- **Skills**, **Learning** (learning roadmap + certificate gallery with a
-  lightbox), and **Contact**.
-- Light/dark theme toggle, a ⌘K / Ctrl+K quick-jump palette, and
-  reduced-motion support.
+- **Home** (`/`) — who I am, an animated credit-workflow card, and what I do.
+- **Work** (`/work/`) — two before/after case studies and the two loops I run
+  (client lifecycle, two-week sprint).
+- **Career** (`/career/`) — the career as "release notes", plus skills.
+- **Certificates** (`/certificates/`) — learning roadmap and a certificate
+  gallery with a lightbox.
+
+Every page ends with a short contact block. Light/dark toggle and a
+⌘K / Ctrl+K quick-jump palette work everywhere.
 
 ## Editing content
 

@@ -84,13 +84,6 @@ export default function HeroWorkflowCard() {
     <div ref={ref} className="relative">
       {/* Floating result chips */}
       <div
-        className={`float-y absolute -top-5 -right-3 z-10 rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-good shadow-card transition-all duration-500 sm:-right-6 ${
-          finished ? "scale-100 opacity-100" : "scale-75 opacity-0"
-        }`}
-      >
-        −67% time to approval
-      </div>
-      <div
         className={`float-y absolute -bottom-5 -left-3 z-10 flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-ink shadow-card transition-all delay-150 duration-500 [animation-delay:-3s] sm:-left-8 ${
           finished ? "scale-100 opacity-100" : "scale-75 opacity-0"
         }`}
@@ -164,28 +157,6 @@ export default function HeroWorkflowCard() {
               );
             })}
           </ol>
-
-          <div className="mt-6 space-y-2" aria-label="Approval time: 60 days before, 20 days after">
-            <div className="flex items-center gap-3 text-xs">
-              <span className="w-12 text-muted">Before</span>
-              <div className="h-2 flex-1 rounded-full bg-surface-2">
-                <div className="h-2 w-full rounded-full bg-muted/40" />
-              </div>
-              <span className="w-12 text-right text-muted">60 days</span>
-            </div>
-            <div className="flex items-center gap-3 text-xs">
-              <span className="w-12 font-medium text-ink">After</span>
-              <div className="h-2 flex-1 rounded-full bg-accent-soft">
-                <div
-                  className="h-2 rounded-full bg-accent transition-[width] duration-1000 ease-out"
-                  style={{ width: finished ? "33.3%" : "100%" }}
-                />
-              </div>
-              <span className="w-12 text-right font-medium text-ink">
-                {finished ? "20 days" : "…"}
-              </span>
-            </div>
-          </div>
 
           <button
             type="button"

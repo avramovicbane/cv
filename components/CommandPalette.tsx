@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { site } from "@/lib/site-config";
 import { toggleTheme } from "@/lib/theme";
 import { OPEN_PALETTE_EVENT } from "@/components/Nav";
@@ -15,28 +16,27 @@ type Command = {
   run: () => void;
 };
 
-const go = (hash: string) => () => {
-  document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
-  history.replaceState(null, "", hash);
-};
-
 export default function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const commands: Command[] = useMemo(
     () => [
-      { id: "top", label: "Home", group: "Jump to", icon: ArrowRight, run: go("#top") },
-      { id: "impact", label: "Impact & case studies", group: "Jump to", icon: ArrowRight, run: go("#impact") },
-      { id: "what", label: "What I do", group: "Jump to", icon: ArrowRight, run: go("#what-i-do") },
-      { id: "work", label: "How I work", group: "Jump to", icon: ArrowRight, run: go("#work") },
-      { id: "journey", label: "Career journey", group: "Jump to", icon: ArrowRight, run: go("#journey") },
-      { id: "skills", label: "Skills", group: "Jump to", icon: ArrowRight, run: go("#skills") },
-      { id: "learning", label: "Certificates & learning", group: "Jump to", icon: ArrowRight, run: go("#learning") },
-      { id: "contact", label: "Contact", group: "Jump to", icon: ArrowRight, run: go("#contact") },
+      { id: "home", label: "Home", group: "Jump to", icon: ArrowRight, run: () => router.push("/") },
+      { id: "work", label: "Work — case studies & how I work", group: "Jump to", icon: ArrowRight, run: () => router.push("/work/") },
+      { id: "career", label: "Career & skills", group: "Jump to", icon: ArrowRight, run: () => router.push("/career/") },
+      { id: "certs", label: "Certificates", group: "Jump to", icon: ArrowRight, run: () => router.push("/certificates/") },
+      {
+        id: "contact",
+        label: "Contact",
+        group: "Jump to",
+        icon: ArrowRight,
+        run: () => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }),
+      },
       {
         id: "cv",
         label: "Download CV (PDF)",
@@ -67,7 +67,7 @@ export default function CommandPalette() {
       { id: "gh", label: "Open GitHub", group: "Actions", icon: GitHub, run: () => window.open(site.social.github, "_blank", "noopener") },
       { id: "theme", label: "Toggle light / dark theme", group: "Actions", icon: Sparkles, run: toggleTheme },
     ],
-    [],
+    [router],
   );
 
   const results = useMemo(() => {

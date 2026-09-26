@@ -52,18 +52,16 @@ function useAutoAfter(setMode: (m: Mode) => void) {
   return ref;
 }
 
-function Story({ problem, approach, outcome }: { problem: string; approach: string; outcome: string }) {
-  const rows = [
-    { k: "Problem", v: problem },
-    { k: "What I did", v: approach },
-    { k: "Outcome", v: outcome },
-  ];
+function Story({ problem, approach }: { problem: string; approach: string }) {
   return (
     <dl className="space-y-5">
-      {rows.map((r) => (
-        <div key={r.k} className="grid gap-1 sm:grid-cols-[7.5rem_1fr] sm:gap-4">
-          <dt className="font-mono text-xs tracking-wider text-muted uppercase sm:pt-1">{r.k}</dt>
-          <dd className={`leading-relaxed ${r.k === "Outcome" ? "font-medium text-ink" : "text-ink-2"}`}>{r.v}</dd>
+      {[
+        { k: "Problem", v: problem },
+        { k: "What I did", v: approach },
+      ].map((r) => (
+        <div key={r.k}>
+          <dt className="font-mono text-xs tracking-wider text-muted uppercase">{r.k}</dt>
+          <dd className="mt-1.5 text-lg leading-relaxed text-ink-2">{r.v}</dd>
         </div>
       ))}
     </dl>
@@ -74,24 +72,25 @@ function LendingPanel() {
   const cs = caseStudies.lending;
   const [mode, setMode] = useState<Mode>("before");
   const ref = useAutoAfter(setMode);
-  const days = mode === "before" ? cs.before : cs.after;
+  const after = mode === "after";
 
   return (
-    <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
-      <div>
-        <h3 className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">{cs.title}</h3>
-        <div className="mt-6">
-          <Story problem={cs.problem} approach={cs.approach} outcome={cs.outcome} />
-        </div>
-      </div>
+    <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+      <Story problem={cs.problem} approach={cs.approach} />
 
       <div ref={ref} className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-sm text-muted">Days to approve an SME loan</p>
-            <p className="mt-1 flex items-baseline gap-2">
-              <span className="text-5xl font-semibold tracking-tight text-ink transition-all duration-500">{days}</span>
-              <span className="text-sm text-muted">days</span>
+            <p className="mt-1 flex items-baseline gap-3">
+              <span className="text-5xl font-semibold tracking-tight text-ink">{after ? cs.after : cs.before}</span>
+              <span
+                className={`rounded-full bg-good-soft px-2.5 py-0.5 text-sm font-medium text-good transition-opacity duration-500 ${
+                  after ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                −67%
+              </span>
             </p>
           </div>
           <Toggle mode={mode} onChange={setMode} />
@@ -103,38 +102,23 @@ function LendingPanel() {
           aria-label={`Each square is one day: ${cs.before} days before, ${cs.after} days after.`}
         >
           {Array.from({ length: cs.before }, (_, i) => {
-            const kept = i < cs.after;
-            const on = mode === "before" || kept;
+            const on = !after || i < cs.after;
             return (
               <span
                 key={i}
-                title={`Day ${i + 1}`}
                 className={`aspect-square rounded-[4px] transition-all duration-500 ${
                   on
-                    ? mode === "after"
+                    ? after
                       ? "bg-accent"
                       : "bg-muted/35"
                     : "scale-75 border border-dashed border-muted/40 bg-transparent"
                 }`}
-                style={{ transitionDelay: `${mode === "after" ? (cs.before - i) * 12 : i * 8}ms` }}
+                style={{ transitionDelay: `${after ? (cs.before - i) * 12 : i * 8}ms` }}
               />
             );
           })}
         </div>
-
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm">
-          <span className="flex items-center gap-2 text-muted">
-            <span className={`h-2.5 w-2.5 rounded-[3px] ${mode === "after" ? "bg-accent" : "bg-muted/35"}`} />
-            1 square = 1 day
-          </span>
-          <span
-            className={`rounded-full bg-good-soft px-3 py-1 font-medium text-good transition-all duration-500 ${
-              mode === "after" ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            40 days saved · −67%
-          </span>
-        </div>
+        <p className="mt-4 text-xs text-muted">1 square = 1 day</p>
       </div>
     </div>
   );
@@ -147,13 +131,8 @@ function AnalysisPanel() {
   const after = mode === "after";
 
   return (
-    <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
-      <div>
-        <h3 className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">{cs.title}</h3>
-        <div className="mt-6">
-          <Story problem={cs.problem} approach={cs.approach} outcome={cs.outcome} />
-        </div>
-      </div>
+    <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+      <Story problem={cs.problem} approach={cs.approach} />
 
       <div ref={ref} className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -165,31 +144,26 @@ function AnalysisPanel() {
           <span aria-hidden className="absolute top-4 bottom-4 left-[15px] w-px bg-line" />
           {cs.steps.map((s, i) => {
             const isAi = i === 1 || i === 2;
-            const highlighted = after && isAi;
+            const lit = after && isAi;
+            const label = !after && i === 1 ? "Analyst reads statements & ledgers" : !after && i === 2 ? "Analyst writes the analysis" : s.label;
             return (
               <li key={s.label} className="relative flex items-center gap-4">
                 <span
                   className={`relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs font-semibold transition-all duration-500 ${
-                    highlighted
-                      ? "border-accent bg-accent text-white"
-                      : "border-line bg-surface text-muted"
+                    lit ? "border-accent bg-accent text-white" : "border-line bg-surface text-muted"
                   }`}
                   style={{ transitionDelay: `${i * 120}ms` }}
                 >
-                  {highlighted ? <Sparkles className="h-3.5 w-3.5" /> : i + 1}
+                  {lit ? <Sparkles className="h-3.5 w-3.5" /> : i + 1}
                 </span>
                 <div
                   className={`flex-1 rounded-xl border px-4 py-2.5 transition-all duration-500 ${
-                    highlighted ? "border-accent/40 bg-accent-soft" : "border-line"
+                    lit ? "border-accent/40 bg-accent-soft" : "border-line"
                   }`}
                   style={{ transitionDelay: `${i * 120}ms` }}
                 >
-                  <p className="text-sm font-medium text-ink">
-                    {i === 1 && !after ? "Analyst reads statements & ledgers" : i === 2 && !after ? "Analyst writes the analysis" : s.label}
-                  </p>
-                  <p className="text-xs text-muted">
-                    {isAi ? (after ? s.detail : "Manual") : s.detail}
-                  </p>
+                  <p className="text-sm font-medium text-ink">{label}</p>
+                  <p className="text-xs text-muted">{isAi && !after ? "Manual" : s.detail}</p>
                 </div>
               </li>
             );
@@ -201,7 +175,11 @@ function AnalysisPanel() {
             <span className="text-muted">Analyst time per assessment</span>
             <span className="font-semibold text-ink">{after ? "~50%" : "100%"}</span>
           </div>
-          <div className="mt-2 h-2.5 rounded-full bg-accent-soft" role="img" aria-label={`Analyst time: ${after ? "about 50%" : "100%"} of the original`}>
+          <div
+            className="mt-2 h-2.5 rounded-full bg-accent-soft"
+            role="img"
+            aria-label={`Analyst time: ${after ? "about 50%" : "100%"} of the original`}
+          >
             <div
               className={`h-2.5 rounded-full transition-all duration-1000 ease-out ${after ? "bg-accent" : "bg-muted/40"}`}
               style={{ width: after ? "50%" : "100%" }}

@@ -8,6 +8,8 @@ const BASE_PATH = "/cv";
 
 const nextConfig: NextConfig = {
   output: "export",
+  // Emit /work/index.html etc. so every page URL works on GitHub Pages.
+  trailingSlash: true,
   basePath: BASE_PATH,
   assetPrefix: BASE_PATH,
   images: {

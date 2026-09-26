@@ -1,7 +1,9 @@
 // ---------------------------------------------------------------------------
-// All site content lives in this one file. Every fact below comes from
-// Bane's CV (public/Bane-Avramovic-CV.pdf) and his certificates — edit here
-// and the whole site updates.
+// All site content lives in this one file. Every fact comes from Bane's CV
+// (public/Bane-Avramovic-CV.pdf) and his certificates.
+//
+// Each fact has ONE home: the headline numbers live in the hero card and the
+// case studies on /work — nowhere else — so the site never repeats itself.
 // ---------------------------------------------------------------------------
 
 export const BASE_PATH = "/cv";
@@ -15,7 +17,6 @@ export const site = {
   roleDetail: "AI products for financial services",
   location: "Belgrade, Serbia",
   email: "bane.avramovic@gmail.com",
-  phone: "+381 60 577 8797",
   cvFile: `${BASE_PATH}/Bane-Avramovic-CV.pdf`,
   cvDownloadName: "Bane-Avramovic-CV.pdf",
   social: {
@@ -23,138 +24,90 @@ export const site = {
     github: "https://github.com/avramovicbane",
   },
   description:
-    "Product Owner building AI-powered software for banks. I own Selecta, an AI-powered CRM used by 4+ banks and 500+ active bank users — from the first presales demo to go-live and beyond.",
+    "Product Owner building AI-powered software for banks. I own Selecta, an AI-powered CRM used by 4+ banks and 500+ bank users.",
 };
 
+export const navLinks = [
+  { href: "/work/", label: "Work" },
+  { href: "/career/", label: "Career" },
+  { href: "/certificates/", label: "Certificates" },
+];
+
+// ---------------------------------------------------------------- Home ----
+
 export const hero = {
-  eyebrow: "Product Owner · AI products for banks",
+  eyebrow: "Product Owner at Intellya",
   headlineStart: "I build AI products that banks",
   headlineAccent: "actually use.",
   intro:
-    "I own Selecta — an AI-powered CRM used by 4+ banks, including tier-1 Serbian banks, and 500+ active bank users. I take it from the first presales demo, through contract, onboarding and UAT, to escalations after go-live.",
+    "I'm Bane. I own Selecta, an AI-powered CRM used by 4+ banks and 500+ bank users — from the first demo to life after go-live.",
 };
 
-export const metrics: { value: string; label: string }[] = [
-  { value: "67%", label: "faster SME loan approval" },
-  { value: "~50%", label: "less analyst time per credit assessment" },
-  { value: "500+", label: "active bank users on the product I own" },
-  { value: "4+", label: "banks running Selecta" },
-  { value: "10+", label: "engineers I set priorities for" },
-  { value: "3", label: "Product Specialists led and coached" },
+export const whatIDo: { key: string; verb: string; body: string }[] = [
+  { key: "demo", verb: "Demo it.", body: "I lead presales demos and take new banks all the way to go-live." },
+  { key: "build", verb: "Build it.", body: "SQL, Bold BI, n8n and Claude Code — I prototype before engineers build." },
+  { key: "ship", verb: "Ship it.", body: "I coach 3 Product Specialists and set priorities for 10+ engineers." },
+  { key: "fix", verb: "Fix it.", body: "Escalations and usage data shape the roadmap, so problems get fixed at the root." },
 ];
 
-export const pillars: {
-  key: string;
-  title: string;
-  kicker: string;
-  body: string;
-}[] = [
-  {
-    key: "win",
-    kicker: "Win",
-    title: "From first demo to signed bank",
-    body: "I lead presales demos for prospective banks, then take signed clients through onboarding, UAT and documentation to go-live — usually in 1–3 months.",
-  },
-  {
-    key: "build",
-    kicker: "Build",
-    title: "Hands-on, not just specs",
-    body: "SQL, Bold BI dashboards, product configuration, and n8n and Claude Code workflows that became production features. Then I write the specs and test what engineers build.",
-  },
-  {
-    key: "lead",
-    kicker: "Lead",
-    title: "A team that ships every two weeks",
-    body: "I coach a team of 3 Product Specialists day to day and set priorities for 10+ engineers, running sprint planning, refinement and retrospectives.",
-  },
-  {
-    key: "fix",
-    kicker: "Fix",
-    title: "Solve it once, at the root",
-    body: "Client escalations and production usage data go straight into roadmap priorities — so recurring problems get fixed at the root, not one ticket at a time.",
-  },
+export const explore: { href: string; title: string; body: string }[] = [
+  { href: "/work/", title: "Work", body: "Two case studies, and the loops I run every day." },
+  { href: "/career/", title: "Career", body: "Six releases, from teaching to AI for banks." },
+  { href: "/certificates/", title: "Certificates", body: "What I've learned, and what's next." },
 ];
+
+// ---------------------------------------------------------------- Work ----
 
 export const caseStudies = {
   lending: {
     tab: "Faster SME lending",
-    title: "SME loan approval: from 60 days to 20",
     problem: "Approving a loan for a small or medium business took 60 days.",
     approach:
-      "Working with the banks' risk and credit teams, I prioritised automating the manual steps in the credit workflow.",
-    outcome: "Approval now takes 20 days — 67% faster.",
+      "With the banks' risk and credit teams, I prioritised automating the manual steps in the credit workflow.",
     before: 60,
     after: 20,
   },
   analysis: {
     tab: "AI credit analysis",
-    title: "An AI that drafts the credit analysis",
-    problem:
-      "Reading financial statements and writing up the financial analysis was a manual step in every credit assessment.",
+    problem: "Reading financial statements and writing the analysis was a manual step in every credit assessment.",
     approach:
-      "I defined an AI feature that reads financial statements and buyer–seller ledgers, and drafts the financial analysis for the analyst to review.",
-    outcome:
-      "~50% less analyst time per credit assessment — analysts review a draft instead of starting from a blank page.",
+      "I defined an AI feature that reads statements and buyer–seller ledgers and drafts the analysis for the analyst to review.",
     steps: [
-      { label: "Financial statements & ledgers", detail: "Uploaded with the application" },
+      { label: "Statements & ledgers", detail: "Uploaded with the application" },
       { label: "AI reads & extracts", detail: "Document intelligence" },
-      { label: "Draft analysis", detail: "Financial analysis & commentary" },
+      { label: "Draft analysis", detail: "Written by AI" },
       { label: "Analyst reviews", detail: "Judgement stays with people" },
     ],
   },
 };
 
-export const lifecycle: { step: string; title: string; body: string }[] = [
-  {
-    step: "Presales",
-    title: "Presales demo",
-    body: "I lead presales demos for prospective banks — the first time a bank sees Selecta, I'm the one showing it.",
-  },
-  {
-    step: "Contract",
-    title: "Contract signed",
-    body: "Once a bank signs, I take them through everything that follows — onboarding, UAT and documentation, all the way to go-live.",
-  },
-  {
-    step: "Onboarding",
-    title: "Onboarding",
-    body: "I run onboarding and handle the product configuration for the new bank.",
-  },
-  {
-    step: "UAT",
-    title: "User acceptance testing",
-    body: "I run UAT with the bank's users and write the functional and technical documentation they rely on.",
-  },
-  {
-    step: "Go-live",
-    title: "Go-live",
-    body: "New bank clients go from contract to live in 1–3 months.",
-  },
-  {
-    step: "After",
-    title: "Escalations & growth",
-    body: "I own client escalations after launch — and turn them, with production usage data, into roadmap priorities.",
-  },
+export const lifecycle: { step: string; body: string }[] = [
+  { step: "Demo", body: "I lead presales demos for prospective banks." },
+  { step: "Onboard", body: "Once a bank signs, I run onboarding and configure the product." },
+  { step: "UAT", body: "I run UAT with the bank's users and write the functional and technical documentation." },
+  { step: "Go-live", body: "Contract to go-live in 1–3 months." },
+  { step: "After", body: "I own escalations, and turn them — with usage data — into roadmap priorities." },
 ];
 
 export const sprint: { step: string; body: string }[] = [
-  { step: "Plan", body: "Sprint planning with 10+ engineers: what ships this release, and why." },
-  { step: "Refine", body: "Backlog refinement — user stories and acceptance criteria grounded in my own SQL analysis of production data." },
-  { step: "Prototype", body: "I prototype in n8n and Claude Code before committing engineering capacity." },
+  { step: "Plan", body: "Sprint planning: what ships this release, and why." },
+  { step: "Refine", body: "User stories and acceptance criteria, grounded in my own SQL analysis of production data." },
+  { step: "Prototype", body: "I prototype in n8n and Claude Code before committing engineering time." },
   { step: "Test", body: "I write the specs, then test what the engineers build." },
-  { step: "Release", body: "A new release ships every two weeks." },
-  { step: "Retro", body: "Retrospective with the team — then the loop starts again." },
+  { step: "Release", body: "A new release every two weeks." },
+  { step: "Retro", body: "What to keep, what to change — then the loop starts again." },
 ];
+
+// -------------------------------------------------------------- Career ----
 
 export type Release = {
   version: string;
   role: string;
   org: string;
-  orgNote?: string;
   period: string;
   current?: boolean;
   summary: string;
-  highlights: string[];
+  link?: { href: string; label: string };
 };
 
 export const releases: Release[] = [
@@ -162,80 +115,58 @@ export const releases: Release[] = [
     version: "v6.0",
     role: "Product Owner — Selecta",
     org: "Intellya",
-    orgNote: "B2B SaaS · AI products for banks and financial institutions",
-    period: "Mar 2026 — Present",
+    period: "2026 — now",
     current: true,
-    summary: "Owning an AI-powered CRM for banks across the full client lifecycle.",
-    highlights: [
-      "Own Selecta for 4+ banks and 500+ active users: presales demos, onboarding, UAT and documentation to go-live, and escalations after launch.",
-      "Build the product hands-on — SQL, Bold BI dashboards, product configuration, and n8n and Claude Code workflows that became production features.",
-      "Lead and coach 3 Product Specialists; set priorities for 10+ engineers shipping a release every two weeks.",
-      "Turn client escalations and production usage data into roadmap priorities, fixing recurring problems at the root.",
-    ],
+    summary: "Own an AI-powered CRM for banks end to end, and build parts of it myself.",
   },
   {
     version: "v5.0",
     role: "Product Specialist",
     org: "Intellya",
-    period: "Oct 2024 — Mar 2026",
+    period: "2024 — 2026",
     summary: "Shipped the AI credit workflow for SME lending.",
-    highlights: [
-      "Cut SME loan approval from 60 to 20 days (−67%) by prioritising automation of manual credit-workflow steps with bank risk and credit teams.",
-      "Reduced analyst time per credit assessment by ~50% with an AI feature that reads financial statements and buyer–seller ledgers and drafts the analysis.",
-      "Took new bank clients from contract to go-live in 1–3 months, running onboarding and UAT and writing the documentation.",
-    ],
+    link: { href: "/work/", label: "Read the case study" },
   },
   {
     version: "v4.0",
     role: "Product Owner — SAP PaPM",
     org: "msg global solutions",
-    orgNote: "SAP consulting · enterprise finance software",
-    period: "May 2023 — Oct 2024",
-    summary: "One of three Product Owners on a flagship SAP Germany programme.",
-    highlights: [
-      "Delivered the corporate direct tax module on a 50-person team working with globally distributed teams.",
-      "Co-led the SAP SCT starter pack — reused across 3+ client implementations — by standardising calculation logic into a reusable product.",
-      "Drove PaPM adoption across 100+ enterprise stakeholders through demos, UAT and cross-workstream coordination.",
-    ],
+    period: "2023 — 2024",
+    summary:
+      "One of three Product Owners on a 50-person SAP Germany programme. Delivered the corporate direct tax module and co-led a starter pack reused across 3+ client implementations.",
   },
   {
     version: "v3.0",
     role: "IT Consulting Intern",
     org: "msg global solutions",
-    period: "Dec 2022 — May 2023",
+    period: "2022 — 2023",
     summary: "Promoted to Product Owner within 6 months.",
-    highlights: ["Supported senior consultants on SAP implementations."],
   },
   {
     version: "v2.0",
     role: "Sales Manager",
-    org: "Sistem:i",
-    orgNote: "Apple Solution Expert",
-    period: "Oct 2020 — Dec 2022",
-    summary: "Where the product sense started: in front of customers.",
-    highlights: [
-      "Closed €200K+ in software sales to institutional clients, owning the full cycle from solution demo to close.",
-    ],
+    org: "Sistem:i (Apple Solution Expert)",
+    period: "2020 — 2022",
+    summary: "Closed €200K+ in software sales to institutional clients — where the product sense started.",
   },
   {
     version: "v1.0",
-    role: "Teaching Associate, Dept. of E-Business",
+    role: "Teaching Associate",
     org: "University of Belgrade (FON)",
-    period: "Oct 2019 — May 2021",
-    summary: "Teaching the web before building products on it.",
-    highlights: [
-      "Taught e-business and web development; ran Node.js and 3D-modelling workshops.",
-    ],
+    period: "2019 — 2021",
+    summary: "Taught e-business and web development; ran Node.js and 3D-modelling workshops.",
   },
 ];
 
 export const education = {
   degree: "BEng, Information Technology",
-  school: "University of Belgrade — Faculty of Organizational Sciences (FON)",
+  school: "University of Belgrade (FON)",
   year: "2022",
 };
 
 export const languages = ["Serbian — Native", "English — Full professional"];
+
+// -------------------------------------------------------------- Skills ----
 
 export const skills: { category: string; items: string[] }[] = [
   {
@@ -289,6 +220,8 @@ export const skills: { category: string; items: string[] }[] = [
     items: ["Jira", "Confluence", "Figma", "SAP PaPM", "MS Office"],
   },
 ];
+
+// -------------------------------------------------------- Certificates ----
 
 export type CertCategory = "Agile & delivery" | "Leadership & soft skills" | "Web development";
 
@@ -401,33 +334,8 @@ export const learningRoadmap: {
   stage: "Now" | "Next" | "Later";
   title: string;
   provider: string;
-  note: string;
 }[] = [
-  {
-    stage: "Now",
-    title: "Professional Scrum Product Owner I (PSPO I)",
-    provider: "Scrum.org",
-    note: "Preparing for the assessment.",
-  },
-  {
-    stage: "Next",
-    title: "AI Product Management",
-    provider: "Duke University · Coursera",
-    note: "A three-course specialization.",
-  },
-  {
-    stage: "Later",
-    title: "Analytics & Experimentation foundations",
-    provider: "Amplitude Academy",
-    note: "Product analytics and experiment design.",
-  },
-];
-
-export const navLinks = [
-  { href: "#impact", label: "Impact" },
-  { href: "#work", label: "How I work" },
-  { href: "#journey", label: "Journey" },
-  { href: "#skills", label: "Skills" },
-  { href: "#learning", label: "Learning" },
-  { href: "#contact", label: "Contact" },
+  { stage: "Now", title: "Professional Scrum Product Owner I (PSPO I)", provider: "Scrum.org" },
+  { stage: "Next", title: "AI Product Management", provider: "Duke University · Coursera" },
+  { stage: "Later", title: "Analytics & Experimentation", provider: "Amplitude Academy" },
 ];

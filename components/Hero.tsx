@@ -1,11 +1,12 @@
+import Link from "next/link";
 import { hero, site, BASE_PATH } from "@/lib/site-config";
 import Reveal from "@/components/Reveal";
 import HeroWorkflowCard from "@/components/HeroWorkflowCard";
-import { ArrowRight, Download, GitHub, LinkedIn, Mail } from "@/components/Icons";
+import { ArrowRight, GitHub, LinkedIn, Mail } from "@/components/Icons";
 
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+    <section id="top" className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24">
       {/* Backdrop: grid, abstract mesh texture and drifting color blobs */}
       <div aria-hidden className="grid-bg pointer-events-none absolute inset-0 opacity-70" />
       <div
@@ -32,7 +33,7 @@ export default function Hero() {
               <span className="relative flex h-2 w-2 text-good">
                 <span className="pulse-dot relative h-2 w-2 rounded-full bg-good" />
               </span>
-              {hero.eyebrow} · {site.location.split(",")[0]}
+              {hero.eyebrow}
             </p>
           </Reveal>
 
@@ -47,32 +48,30 @@ export default function Hero() {
 
           <Reveal delay={160}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-pretty text-ink-2 sm:text-lg">
-              Hi, I&apos;m {site.firstName}, {site.role} at Intellya. {hero.intro}
+              {hero.intro}
             </p>
           </Reveal>
 
           <Reveal delay={240}>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="#impact"
+              <Link
+                href="/work/"
                 className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-medium text-bg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/25"
               >
-                See the impact
+                See my work
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </a>
+              </Link>
               <a
-                href={site.cvFile}
-                download={site.cvDownloadName}
+                href="#contact"
                 className="group inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-5 py-3 text-sm font-medium text-ink backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50"
               >
-                <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
-                Download CV
+                <Mail className="h-4 w-4" />
+                Get in touch
               </a>
               <div className="flex items-center gap-1 pl-1">
                 {[
                   { href: site.social.linkedin, label: "LinkedIn", Icon: LinkedIn },
                   { href: site.social.github, label: "GitHub", Icon: GitHub },
-                  { href: `mailto:${site.email}`, label: "Email", Icon: Mail },
                 ].map(({ href, label, Icon }) => (
                   <a
                     key={label}
@@ -96,15 +95,6 @@ export default function Hero() {
         </Reveal>
       </div>
 
-      <a
-        href="#impact"
-        aria-label="Scroll to impact"
-        className="scroll-cue relative mx-auto mt-16 hidden h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition-colors hover:text-ink sm:flex"
-      >
-        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          <path d="M12 5v14M5 12l7 7 7-7" />
-        </svg>
-      </a>
     </section>
   );
 }

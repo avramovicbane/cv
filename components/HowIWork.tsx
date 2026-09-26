@@ -49,20 +49,24 @@ function Lifecycle() {
     <div ref={ref}>
       <div className="relative pb-2">
         <div className="relative sm:px-2">
-          <div aria-hidden className="absolute top-4 right-[8.333%] left-[8.333%] h-0.5 rounded-full bg-line sm:top-5">
+          <div
+            aria-hidden
+            className="absolute top-4 h-0.5 rounded-full bg-line sm:top-5"
+            style={{ left: `${50 / lifecycle.length}%`, right: `${50 / lifecycle.length}%` }}
+          >
             <div
               className="h-0.5 rounded-full bg-linear-to-r from-indigo-500 via-fuchsia-500 to-pink-500 transition-[width] duration-700 ease-out"
               style={{ width: `${pct}%` }}
             />
           </div>
-          <ol className="relative grid grid-cols-6">
+          <ol className="relative grid" style={{ gridTemplateColumns: `repeat(${lifecycle.length}, 1fr)` }}>
             {lifecycle.map((s, i) => (
               <li key={s.step} className="flex justify-center">
                 <button
                   type="button"
                   onClick={() => select(i)}
                   aria-current={i === active ? "step" : undefined}
-                  aria-label={s.title}
+                  aria-label={s.step}
                   className="group flex flex-col items-center gap-3"
                 >
                   <span
@@ -100,7 +104,7 @@ function Lifecycle() {
         </span>
         <div>
           <h4 className="font-display text-xl font-semibold text-ink sm:text-2xl">
-            {lifecycle[active].title}
+            {lifecycle[active].step}
           </h4>
           <p className="mt-2 max-w-2xl leading-relaxed text-ink-2">
             {lifecycle[active].body}
@@ -209,8 +213,8 @@ function AutoHint({ running }: { running: boolean }) {
 export default function HowIWork() {
   const [tab, setTab] = useState<"lifecycle" | "sprint">("lifecycle");
   const tabs = [
-    { key: "lifecycle", label: "The client lifecycle" },
-    { key: "sprint", label: "The two-week sprint" },
+    { key: "lifecycle", label: "Client lifecycle" },
+    { key: "sprint", label: "Two-week sprint" },
   ] as const;
 
   return (

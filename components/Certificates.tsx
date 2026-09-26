@@ -18,10 +18,6 @@ const FILTERS: ("All" | CertCategory)[] = [
   "Web development",
 ];
 
-const udemyHours = certificates
-  .filter((c) => c.hours)
-  .reduce((sum, c) => sum + parseFloat(c.hours ?? "0"), 0);
-
 function Lightbox({
   items,
   index,
@@ -136,7 +132,7 @@ function Lightbox({
   );
 }
 
-export default function Learning() {
+export default function Certificates() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -154,51 +150,35 @@ export default function Learning() {
 
   return (
     <div>
-      {/* Learning roadmap */}
+      {/* Learning roadmap — Now / Next / Later */}
       <Reveal>
-        <div className="mb-14 rounded-3xl border border-line bg-surface p-6 sm:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="font-mono text-xs tracking-widest text-accent-ink uppercase">
-                Learning roadmap
-              </p>
-              <h3 className="mt-2 font-display text-2xl font-semibold text-ink">
-                Now · Next · Later
-              </h3>
-            </div>
-            <p className="max-w-sm text-sm text-muted">
-              I plan my own growth the way I plan a product.
-            </p>
-          </div>
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {learningRoadmap.map((item, i) => (
-              <div
-                key={item.title}
-                className={`relative rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 ${
-                  i === 0 ? "gradient-border" : "border-line bg-surface-2/40"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-                      i === 0 ? "bg-accent text-white" : "bg-surface-2 text-ink-2"
-                    }`}
-                  >
-                    {item.stage}
+        <div className="mb-12 grid gap-3 md:grid-cols-3">
+          {learningRoadmap.map((item, i) => (
+            <div
+              key={item.title}
+              className={`rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 ${
+                i === 0 ? "gradient-border" : "border-line bg-surface"
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span
+                  className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                    i === 0 ? "bg-accent text-white" : "bg-surface-2 text-ink-2"
+                  }`}
+                >
+                  {item.stage}
+                </span>
+                {i === 0 && (
+                  <span className="flex items-center gap-1.5 text-xs text-good">
+                    <span className="pulse-dot relative h-1.5 w-1.5 rounded-full bg-good" />
+                    In progress
                   </span>
-                  {i === 0 && (
-                    <span className="flex items-center gap-1.5 text-xs text-good">
-                      <span className="pulse-dot relative h-1.5 w-1.5 rounded-full bg-good" />
-                      In progress
-                    </span>
-                  )}
-                </div>
-                <p className="mt-4 font-medium text-ink">{item.title}</p>
-                <p className="mt-1 text-sm text-muted">{item.provider}</p>
-                <p className="mt-3 text-sm text-ink-2">{item.note}</p>
+                )}
               </div>
-            ))}
-          </div>
+              <p className="mt-3 font-medium text-ink">{item.title}</p>
+              <p className="mt-0.5 text-sm text-muted">{item.provider}</p>
+            </div>
+          ))}
         </div>
       </Reveal>
 
@@ -225,13 +205,9 @@ export default function Learning() {
             );
           })}
         </div>
-        <p className="text-sm text-muted">
-          {certificates.filter((c) => c.issuer === "Udemy").length} Udemy courses ({udemyHours} h) ·{" "}
-          {certificates.filter((c) => c.issuer === "SoloLearn").length} SoloLearn
-        </p>
       </div>
 
-      <ul key={filter} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul key={filter} className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {visible.map((c, i) => (
           <li
             key={c.title}
@@ -251,7 +227,7 @@ export default function Learning() {
                   width={1100}
                   height={818}
                   loading="lazy"
-                  className="aspect-[4/3] h-auto w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                  className="aspect-[16/10] h-auto w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
                 />
                 <span className="absolute inset-0 flex items-center justify-center bg-ink/0 opacity-0 transition-all duration-300 group-hover:bg-ink/30 group-hover:opacity-100">
                   <span className="rounded-full bg-surface px-3.5 py-1.5 text-xs font-medium text-ink shadow-card">
@@ -259,10 +235,9 @@ export default function Learning() {
                   </span>
                 </span>
               </button>
-              <div className="flex flex-1 flex-col p-4">
-                <p className="text-xs font-medium text-accent-ink">{c.category}</p>
-                <p className="mt-1.5 flex-1 leading-snug font-medium text-ink">{c.title}</p>
-                <div className="mt-3 flex items-center justify-between text-xs text-muted">
+              <div className="flex flex-1 flex-col p-3 sm:p-4">
+                <p className="flex-1 text-sm leading-snug font-medium text-ink sm:text-base">{c.title}</p>
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs text-muted">
                   <span>
                     {c.issuer}
                     {c.date && ` · ${c.date}`}
