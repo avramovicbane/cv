@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { site } from "@/lib/site-config";
 import { toggleTheme } from "@/lib/theme";
 import { OPEN_PALETTE_EVENT } from "@/components/Nav";
-import { ArrowRight, Download, GitHub, LinkedIn, Mail, Search, Copy, Sparkles } from "@/components/Icons";
+import { ArrowRight, Download, LinkedIn, Mail, Search, Copy, Sparkles } from "@/components/Icons";
 
 type Command = {
   id: string;
@@ -64,7 +64,6 @@ export default function CommandPalette() {
       },
       { id: "mail", label: "Send an email", group: "Actions", icon: Mail, run: () => (window.location.href = `mailto:${site.email}`) },
       { id: "li", label: "Open LinkedIn", group: "Actions", icon: LinkedIn, run: () => window.open(site.social.linkedin, "_blank", "noopener") },
-      { id: "gh", label: "Open GitHub", group: "Actions", icon: GitHub, run: () => window.open(site.social.github, "_blank", "noopener") },
       { id: "theme", label: "Toggle light / dark theme", group: "Actions", icon: Sparkles, run: toggleTheme },
     ],
     [router],

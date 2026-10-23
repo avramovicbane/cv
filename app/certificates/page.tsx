@@ -14,7 +14,7 @@ export default function CertificatesPage() {
         eyebrow="Certificates"
         title="Always in"
         accent="the next sprint."
-        intro="What I'm learning now, next and later — and what I've already finished. Click a certificate to open it."
+        intro="What I'm learning next and later — and what I've already finished. Click a certificate to open it."
       />
       <section className="pb-20 sm:pb-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">

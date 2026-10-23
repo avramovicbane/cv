@@ -150,9 +150,9 @@ export default function Certificates() {
 
   return (
     <div>
-      {/* Learning roadmap — Now / Next / Later */}
+      {/* Learning roadmap — Next / Later */}
       <Reveal>
-        <div className="mb-12 grid gap-3 md:grid-cols-3">
+        <div className="mb-12 grid gap-3 md:grid-cols-2">
           {learningRoadmap.map((item, i) => (
             <div
               key={item.title}
@@ -168,12 +168,6 @@ export default function Certificates() {
                 >
                   {item.stage}
                 </span>
-                {i === 0 && (
-                  <span className="flex items-center gap-1.5 text-xs text-good">
-                    <span className="pulse-dot relative h-1.5 w-1.5 rounded-full bg-good" />
-                    In progress
-                  </span>
-                )}
               </div>
               <p className="mt-3 font-medium text-ink">{item.title}</p>
               <p className="mt-0.5 text-sm text-muted">{item.provider}</p>

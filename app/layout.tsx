@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://avramovicbane.github.io"),
   title: { default: defaultTitle, template: `%s — ${site.name}` },
   description: site.description,
+  alternates: { canonical: `${SITE_URL}/` },
   openGraph: {
     type: "profile",
     url: `${SITE_URL}/`,

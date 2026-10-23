@@ -2,7 +2,7 @@ import Link from "next/link";
 import { hero, site, BASE_PATH } from "@/lib/site-config";
 import Reveal from "@/components/Reveal";
 import HeroWorkflowCard from "@/components/HeroWorkflowCard";
-import { ArrowRight, GitHub, LinkedIn, Mail } from "@/components/Icons";
+import { ArrowRight, LinkedIn, Mail } from "@/components/Icons";
 
 export default function Hero() {
   return (
@@ -71,7 +71,6 @@ export default function Hero() {
               <div className="flex items-center gap-1 pl-1">
                 {[
                   { href: site.social.linkedin, label: "LinkedIn", Icon: LinkedIn },
-                  { href: site.social.github, label: "GitHub", Icon: GitHub },
                 ].map(({ href, label, Icon }) => (
                   <a
                     key={label}

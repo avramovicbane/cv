@@ -21,10 +21,9 @@ export const site = {
   cvDownloadName: "Bane-Avramovic-CV.pdf",
   social: {
     linkedin: "https://www.linkedin.com/in/baneavramovic",
-    github: "https://github.com/avramovicbane",
   },
   description:
-    "Product Owner building AI-powered software for banks. I own Selecta, an AI-powered CRM used by 4+ banks and 500+ bank users.",
+    "Product Owner building AI-powered software for banks. I own Selecta, an AI-powered CRM used by 4+ banks and 500+ active bank users.",
 };
 
 export const navLinks = [
@@ -40,7 +39,7 @@ export const hero = {
   headlineStart: "I build AI products that banks",
   headlineAccent: "actually use.",
   intro:
-    "I'm Bane. I own Selecta, an AI-powered CRM used by 4+ banks and 500+ bank users — from the first demo to life after go-live.",
+    "I'm Bane. I own Selecta, an AI-powered CRM used by 4+ banks and 500+ active bank users — from the first demo to life after go-live.",
 };
 
 export const whatIDo: { key: string; verb: string; body: string }[] = [
@@ -331,11 +330,10 @@ export const certificates: Certificate[] = [
 ];
 
 export const learningRoadmap: {
-  stage: "Now" | "Next" | "Later";
+  stage: "Next" | "Later";
   title: string;
   provider: string;
 }[] = [
-  { stage: "Now", title: "Professional Scrum Product Owner I (PSPO I)", provider: "Scrum.org" },
   { stage: "Next", title: "AI Product Management", provider: "Duke University · Coursera" },
   { stage: "Later", title: "Analytics & Experimentation", provider: "Amplitude Academy" },
 ];
