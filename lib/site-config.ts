@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 // All site content lives in this one file. Every fact comes from Bane's CV
-// (public/Bane-Avramovic-CV.pdf) and his certificates.
+// and his certificates.
 //
 // Each fact has ONE home: the headline numbers live in the hero card and the
 // case studies on /work — nowhere else — so the site never repeats itself.
@@ -17,8 +17,6 @@ export const site = {
   roleDetail: "AI products for financial services",
   location: "Belgrade, Serbia",
   email: "bane.avramovic@gmail.com",
-  cvFile: `${BASE_PATH}/Bane-Avramovic-CV.pdf`,
-  cvDownloadName: "Bane-Avramovic-CV.pdf",
   social: {
     linkedin: "https://www.linkedin.com/in/baneavramovic",
   },
@@ -44,14 +42,14 @@ export const hero = {
 
 export const whatIDo: { key: string; verb: string; body: string }[] = [
   { key: "demo", verb: "Demo it.", body: "I lead presales demos and take new banks all the way to go-live." },
-  { key: "build", verb: "Build it.", body: "SQL, Bold BI, n8n and Claude Code — I prototype before engineers build." },
+  { key: "build", verb: "Build it.", body: "SQL, Bold BI and Claude Code — I prototype before engineers build." },
   { key: "ship", verb: "Ship it.", body: "I coach 3 Product Specialists and set priorities for 10+ engineers." },
   { key: "fix", verb: "Fix it.", body: "Escalations and usage data shape the roadmap, so problems get fixed at the root." },
 ];
 
 export const explore: { href: string; title: string; body: string }[] = [
   { href: "/work/", title: "Work", body: "Two case studies, and the loops I run every day." },
-  { href: "/career/", title: "Career", body: "Six releases, from teaching to AI for banks." },
+  { href: "/career/", title: "Career", body: "Seven releases, from teaching to AI for banks." },
   { href: "/certificates/", title: "Certificates", body: "What I've learned, and what's next." },
 ];
 
@@ -68,13 +66,13 @@ export const caseStudies = {
   },
   analysis: {
     tab: "AI credit analysis",
-    problem: "Reading financial statements and writing the analysis was a manual step in every credit assessment.",
+    problem: "Analysts copied figures from financial statements and ledgers into Excel by hand for every credit assessment.",
     approach:
-      "I defined an AI feature that reads statements and buyer–seller ledgers and drafts the analysis for the analyst to review.",
+      "I defined an AI feature where OCR reads the statements and buyer–seller ledgers and packs the data into Excel for the analyst, who reviews it. Analyst time per assessment dropped by about 50%.",
     steps: [
       { label: "Statements & ledgers", detail: "Uploaded with the application" },
-      { label: "AI reads & extracts", detail: "Document intelligence" },
-      { label: "Draft analysis", detail: "Written by AI" },
+      { label: "OCR reads & extracts", detail: "Document intelligence" },
+      { label: "Data packed into Excel", detail: "Ready for the analyst" },
       { label: "Analyst reviews", detail: "Judgement stays with people" },
     ],
   },
@@ -82,8 +80,8 @@ export const caseStudies = {
 
 export const lifecycle: { step: string; body: string }[] = [
   { step: "Demo", body: "I lead presales demos for prospective banks." },
-  { step: "Onboard", body: "Once a bank signs, I run onboarding and configure the product." },
-  { step: "UAT", body: "I run UAT with the bank's users and write the functional and technical documentation." },
+  { step: "Onboard", body: "Once a bank signs, I run onboarding, configure the product and write the functional and technical documentation." },
+  { step: "UAT", body: "I run UAT with the bank's users before go-live." },
   { step: "Go-live", body: "Contract to go-live in 1–3 months." },
   { step: "After", body: "I own escalations, and turn them — with usage data — into roadmap priorities." },
 ];
@@ -91,7 +89,7 @@ export const lifecycle: { step: string; body: string }[] = [
 export const sprint: { step: string; body: string }[] = [
   { step: "Plan", body: "Sprint planning: what ships this release, and why." },
   { step: "Refine", body: "User stories and acceptance criteria, grounded in my own SQL analysis of production data." },
-  { step: "Prototype", body: "I prototype in n8n and Claude Code before committing engineering time." },
+  { step: "Prototype", body: "I prototype with Claude Code before committing engineering time." },
   { step: "Test", body: "I write the specs, then test what the engineers build." },
   { step: "Release", body: "A new release every two weeks." },
   { step: "Retro", body: "What to keep, what to change — then the loop starts again." },
@@ -111,15 +109,16 @@ export type Release = {
 
 export const releases: Release[] = [
   {
-    version: "v6.0",
+    version: "v7.0",
     role: "Product Owner — Selecta",
     org: "Intellya",
     period: "2026 — now",
     current: true,
-    summary: "Own an AI-powered CRM for banks end to end, and build parts of it myself.",
+    summary:
+      "Own an AI-powered CRM for banks end to end, build parts of it myself, and work closely with the Director of Product on direction and trade-offs.",
   },
   {
-    version: "v5.0",
+    version: "v6.0",
     role: "Product Specialist",
     org: "Intellya",
     period: "2024 — 2026",
@@ -127,25 +126,33 @@ export const releases: Release[] = [
     link: { href: "/work/", label: "Read the case study" },
   },
   {
-    version: "v4.0",
+    version: "v5.0",
     role: "Product Owner — SAP PaPM",
     org: "msg global solutions",
     period: "2023 — 2024",
     summary:
-      "One of three Product Owners on a 50-person SAP Germany programme. Delivered the corporate direct tax module and co-led a starter pack reused across 3+ client implementations.",
+      "Product Owner on 2 client implementations of the SAP Sustainability Control Tower (SCT) starter pack. Presented product direction and progress to project superiors and drove PaPM adoption across 100+ enterprise stakeholders.",
+  },
+  {
+    version: "v4.0",
+    role: "PaPM Consultant",
+    org: "msg global solutions",
+    period: "2022 — 2023",
+    summary: "Onboarding phase at msg: worked as a PaPM consultant on SAP implementations.",
   },
   {
     version: "v3.0",
-    role: "IT Consulting Intern",
-    org: "msg global solutions",
-    period: "2022 — 2023",
-    summary: "Promoted to Product Owner within 6 months.",
+    role: "Product Specialist",
+    org: "Sistem:i",
+    period: "2021 — 2022",
+    summary:
+      "Product Specialist for software sold to cafés, used to record tables and orders and to track stock levels. Worked closely with designers.",
   },
   {
     version: "v2.0",
     role: "Sales Manager",
     org: "Sistem:i (Apple Solution Expert)",
-    period: "2020 — 2022",
+    period: "2020 — 2021",
     summary: "Closed €200K+ in software sales to institutional clients — where the product sense started.",
   },
   {
@@ -171,6 +178,7 @@ export const skills: { category: string; items: string[] }[] = [
   {
     category: "Product",
     items: [
+      "Product strategy",
       "Roadmap ownership",
       "Prioritisation",
       "Discovery",
@@ -197,10 +205,9 @@ export const skills: { category: string; items: string[] }[] = [
       "Bold BI",
       "Production data analysis",
       "Product configuration",
-      "LLM feature specification",
       "Document intelligence",
-      "n8n",
       "Claude Code",
+      "Multi-step AI workflows with Claude",
     ],
   },
   {
