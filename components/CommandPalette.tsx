@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { site } from "@/lib/site-config";
 import { toggleTheme } from "@/lib/theme";
 import { OPEN_PALETTE_EVENT } from "@/components/Nav";
-import { ArrowRight, Download, LinkedIn, Mail, Search, Copy, Sparkles } from "@/components/Icons";
+import { ArrowRight, LinkedIn, Mail, Search, Copy, Sparkles } from "@/components/Icons";
 
 type Command = {
   id: string;
@@ -36,18 +36,6 @@ export default function CommandPalette() {
         group: "Jump to",
         icon: ArrowRight,
         run: () => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }),
-      },
-      {
-        id: "cv",
-        label: "Download CV (PDF)",
-        group: "Actions",
-        icon: Download,
-        run: () => {
-          const a = document.createElement("a");
-          a.href = site.cvFile;
-          a.download = site.cvDownloadName;
-          a.click();
-        },
       },
       {
         id: "copy",
