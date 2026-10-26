@@ -9,7 +9,7 @@ export default function Career() {
       <span aria-hidden className="absolute top-3 bottom-3 left-[11px] w-px bg-linear-to-b from-accent via-line to-transparent" />
       {releases.map((r, i) => (
         <li key={r.version}>
-          {r.version === "v2.0" && (
+          {r.version === "v3.0" && (
             <Reveal>
               <div className="relative flex items-baseline gap-3 pb-8 pl-10">
                 <span aria-hidden className="absolute top-1 left-[5px] h-3.5 w-3.5 rotate-45 rounded-[3px] border-2 border-amber-500 bg-bg" />
