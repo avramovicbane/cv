@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks, site } from "@/lib/site-config";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Download, Search } from "@/components/Icons";
+import { Search } from "@/components/Icons";
 
 export const OPEN_PALETTE_EVENT = "open-command-palette";
 
@@ -75,15 +75,6 @@ export default function Nav() {
             </kbd>
           </button>
           <ThemeToggle />
-          <a
-            href={site.cvFile}
-            download={site.cvDownloadName}
-            aria-label="Download CV"
-            className="group flex h-9 w-9 items-center justify-center gap-2 rounded-full bg-ink text-sm font-medium text-bg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/25 sm:w-auto sm:px-4"
-          >
-            <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
-            <span className="hidden sm:inline">Download CV</span>
-          </a>
           <button
             type="button"
             onClick={() => setMenuOpen((o) => !o)}
@@ -118,13 +109,6 @@ export default function Nav() {
           ))}
           <a href="#contact" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2.5 text-base text-ink-2">
             Contact
-          </a>
-          <a
-            href={site.cvFile}
-            download={site.cvDownloadName}
-            className="mt-2 flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-medium text-bg"
-          >
-            <Download /> Download CV
           </a>
         </nav>
       </div>
