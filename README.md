@@ -28,8 +28,6 @@ lib/site-config.ts
 
 Edit it, commit, and push to `main`. Other files to know about:
 
-- `public/Bane-Avramovic-CV.pdf` — the CV behind every "Download CV" button
-  (replace the file, keep the name).
 - `public/certs/*.webp` — certificate images shown in the gallery. To add a
   certificate, drop an image here and add an entry to `certificates` in
   `lib/site-config.ts`.
