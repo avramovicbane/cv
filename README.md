@@ -8,33 +8,37 @@ Pages.
 
 ## Pages
 
-- **Home** (`/`) — who I am, an animated credit-workflow card, and what I do.
+Every page exists in English (`/`) and Serbian (`/sr/`); the EN | SR switch in
+the header jumps between the two versions of the page you are on.
+
+- **Home** (`/`) — who I am, an animated credit-workflow card, headline
+  numbers, what I do, and this year's new certificates.
 - **Work** (`/work/`) — two before/after case studies and the two loops I run
   (client lifecycle, two-week sprint).
 - **Career** (`/career/`) — the career as "release notes", plus skills.
 - **Certificates** (`/certificates/`) — learning roadmap and a certificate
-  gallery with a lightbox.
+  gallery with filters and a lightbox.
 
-Every page ends with a short contact block. Light/dark toggle and a
+Every page ends with a contact block. Light/dark toggle and a
 ⌘K / Ctrl+K quick-jump palette work everywhere.
 
 ## Editing content
 
-All text, numbers, roles, skills and certificates live in one file:
+- `lib/content.ts` — every sentence on the site, in English (`en`) and
+  Serbian (`sr`). The two objects have the same shape; change both when you
+  change one.
+- `lib/site-config.ts` — language-neutral facts: name, email, links and the
+  certificate list.
 
-```
-lib/site-config.ts
-```
+To add a certificate, drop a `.webp` image into `public/certs/` and add an
+entry to `certificates` in `lib/site-config.ts` (newest first). Certificates
+dated this year get a "New" tag automatically.
 
-Edit it, commit, and push to `main`. Other files to know about:
+To add a language, add it to `LANGS` in `lib/lang.ts`, add its text to
+`lib/content.ts`, and copy the `app/(sr)` folder.
 
-- `public/Bane-Avramovic-CV.pdf` — the CV behind every "Download CV" button
-  (replace the file, keep the name).
-- `public/certs/*.webp` — certificate images shown in the gallery. To add a
-  certificate, drop an image here and add an entry to `certificates` in
-  `lib/site-config.ts`.
-- `public/og.png` — the preview image shown when the link is shared on
-  LinkedIn, Slack, etc.
+`public/og.png` is the preview image shown when the link is shared on
+LinkedIn, Slack, etc.
 
 ## Local development
 

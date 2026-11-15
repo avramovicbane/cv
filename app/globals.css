@@ -7,34 +7,40 @@
    Design tokens — light by default, .dark on <html> for dark
    ------------------------------------------------------------------- */
 :root {
-  --bg: #f6f7fb;
-  --surface: #ffffff;
-  --surface-2: #eef0f7;
-  --ink: #0c1120;
-  --ink-2: #3a4257;
-  --muted: #6a7288;
-  --line: #e2e5ee;
-  --accent: #4f46e5;
-  --accent-ink: #4338ca;
-  --accent-soft: #eceafe;
-  --good: #047857;
-  --good-soft: #d9f5ea;
-  --shadow: 0 1px 2px rgb(12 17 32 / 0.04), 0 8px 24px -8px rgb(12 17 32 / 0.08);
+  --bg: #f4f1ea;
+  --surface: #fffdf8;
+  --surface-2: #ebe6da;
+  --ink: #16140f;
+  --ink-2: #45413a;
+  --muted: #6b665b;
+  --line: #d9d3c5;
+  --accent: #e5431b;
+  --accent-ink: #b8320f;
+  --accent-soft: #fde3d8;
+  --on-accent: #ffffff;
+  --pop: #c8f135;
+  --on-pop: #16140f;
+  --good: #0f7a4f;
+  --good-soft: #d6f2e3;
+  --shadow: 0 1px 2px rgb(22 20 15 / 0.05), 0 10px 28px -10px rgb(22 20 15 / 0.14);
 }
 
 .dark {
-  --bg: #070910;
-  --surface: #0e121d;
-  --surface-2: #151b2a;
-  --ink: #eef1f8;
-  --ink-2: #b8c0d4;
-  --muted: #8a93aa;
-  --line: #1f2638;
-  --accent: #8b8dfc;
-  --accent-ink: #a5a7ff;
-  --accent-soft: #1b1e3d;
-  --good: #34d399;
-  --good-soft: #0f2e25;
+  --bg: #100f0d;
+  --surface: #191815;
+  --surface-2: #23211d;
+  --ink: #f4f1e8;
+  --ink-2: #c4bfb2;
+  --muted: #938e82;
+  --line: #2f2c27;
+  --accent: #ff6a3d;
+  --accent-ink: #ff8a63;
+  --accent-soft: #3a1c11;
+  --on-accent: #1a0b05;
+  --pop: #d2f94a;
+  --on-pop: #16140f;
+  --good: #4ade9a;
+  --good-soft: #12301f;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
 }
 
@@ -51,6 +57,9 @@
   --color-accent-soft: var(--accent-soft);
   --color-good: var(--good);
   --color-good-soft: var(--good-soft);
+  --color-on-accent: var(--on-accent);
+  --color-pop: var(--pop);
+  --color-on-pop: var(--on-pop);
   --font-sans:
     "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif;
@@ -90,46 +99,51 @@
    Decorative helpers
    ------------------------------------------------------------------- */
 
-.gradient-text {
-  background-image: linear-gradient(
-    100deg,
-    #6366f1,
-    #a855f7,
-    #ec4899,
-    #6366f1
-  );
-  background-size: 300% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradient-shift 8s ease-in-out infinite;
+/* A word picked out with a highlighter: lime slab, slightly tilted. */
+.marker {
+  display: inline-block;
+  padding: 0 0.16em 0.04em;
+  margin: 0 -0.04em;
+  border-radius: 0.14em;
+  background: var(--pop);
+  color: var(--on-pop);
+  transform: rotate(-1.5deg);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
-.gradient-border {
-  background:
-    linear-gradient(var(--surface), var(--surface)) padding-box,
-    linear-gradient(120deg, #6366f1, #a855f7, #ec4899) border-box;
-  border: 1px solid transparent;
+/* Cards with a hard "sticker" shadow that lifts on hover. */
+.pop-card {
+  border: 1.5px solid var(--ink);
+  background: var(--surface);
+  box-shadow: 4px 4px 0 var(--ink);
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.2),
+    box-shadow 0.25s ease;
+}
+a.pop-card:hover,
+button.pop-card:hover,
+.pop-card.pop-hover:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 var(--accent);
 }
 
-.blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(80px);
-  pointer-events: none;
-  animation: blob-float 20s ease-in-out infinite;
+.dot-bg {
+  background-image: radial-gradient(var(--line) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 25%, transparent 72%);
 }
 
-.grid-bg {
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 75%);
+.spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+.wiggle:hover {
+  animation: wiggle 0.5s ease-in-out;
 }
 
 .marquee-track {
-  animation: marquee 40s linear infinite;
+  animation: marquee 45s linear infinite;
 }
 .marquee:hover .marquee-track {
   animation-play-state: paused;
@@ -160,26 +174,22 @@
    Keyframes
    ------------------------------------------------------------------- */
 
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@keyframes blob-float {
+@keyframes wiggle {
   0%,
   100% {
-    transform: translate(0, 0) scale(1);
+    transform: rotate(0);
   }
-  33% {
-    transform: translate(40px, -30px) scale(1.12);
+  25% {
+    transform: rotate(-5deg);
   }
-  66% {
-    transform: translate(-30px, 20px) scale(0.92);
+  75% {
+    transform: rotate(5deg);
   }
 }
 
@@ -267,6 +277,17 @@
   }
 }
 
+@keyframes rise {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @keyframes progress {
   from {
     transform: scaleX(0);
@@ -281,6 +302,9 @@
 }
 .animate-fade-in {
   animation: fade-in 0.25s ease-out both;
+}
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 .animate-slide-up {
   animation: slide-up 0.4s ease-out both;

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { lifecycle, sprint } from "@/lib/site-config";
+import { fill } from "@/lib/content";
+import { useT } from "@/lib/i18n";
 
 const AUTO_MS = 3800;
 
@@ -42,6 +43,8 @@ function useAutoStep(count: number) {
 }
 
 function Lifecycle() {
+  const { t } = useT();
+  const { lifecycle } = t.work.how;
   const { ref, active, select, running } = useAutoStep(lifecycle.length);
   const pct = (active / (lifecycle.length - 1)) * 100;
 
@@ -55,7 +58,7 @@ function Lifecycle() {
             style={{ left: `${50 / lifecycle.length}%`, right: `${50 / lifecycle.length}%` }}
           >
             <div
-              className="h-0.5 rounded-full bg-linear-to-r from-indigo-500 via-fuchsia-500 to-pink-500 transition-[width] duration-700 ease-out"
+              className="h-0.5 rounded-full bg-accent transition-[width] duration-700 ease-out"
               style={{ width: `${pct}%` }}
             />
           </div>
@@ -72,7 +75,7 @@ function Lifecycle() {
                   <span
                     className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-semibold transition-all duration-500 sm:h-10 sm:w-10 sm:text-sm ${
                       i === active
-                        ? "scale-110 border-accent bg-accent text-white shadow-lg shadow-accent/30"
+                        ? "scale-110 border-ink bg-accent text-on-accent shadow-[2px_2px_0_var(--ink)]"
                         : i < active
                           ? "border-accent bg-surface text-accent-ink"
                           : "border-line bg-surface text-muted group-hover:border-accent/50"
@@ -96,10 +99,10 @@ function Lifecycle() {
 
       <div
         key={active}
-        className="animate-slide-up mt-8 grid gap-4 rounded-2xl border border-line bg-surface p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-8"
+        className="animate-slide-up pop-card mt-8 grid gap-4 rounded-2xl p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-8"
         aria-live="polite"
       >
-        <span className="font-display text-6xl leading-none font-semibold text-accent/25 sm:text-7xl">
+        <span className="font-display text-6xl leading-none font-semibold text-accent sm:text-7xl">
           0{active + 1}
         </span>
         <div>
@@ -117,6 +120,8 @@ function Lifecycle() {
 }
 
 function Sprint() {
+  const { t } = useT();
+  const { sprint, ...how } = t.work.how;
   const { ref, active, select, running } = useAutoStep(sprint.length);
   const size = 330;
   const r = 128;
@@ -145,9 +150,9 @@ function Sprint() {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <span className="font-mono text-[11px] tracking-widest text-muted uppercase">Every</span>
-          <span className="font-display text-4xl font-semibold text-ink">2 weeks</span>
-          <span className="mt-1 text-sm text-muted">one release</span>
+          <span className="font-mono text-[11px] tracking-widest text-muted uppercase">{how.every}</span>
+          <span className="font-display text-4xl font-semibold text-ink">{how.twoWeeks}</span>
+          <span className="mt-1 text-sm text-muted">{how.oneRelease}</span>
         </div>
         {sprint.map((s, i) => {
           const angle = (i / sprint.length) * 2 * Math.PI - Math.PI / 2;
@@ -161,7 +166,7 @@ function Sprint() {
               aria-current={i === active ? "step" : undefined}
               className={`absolute flex h-[60px] w-[60px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 text-[11px] font-semibold transition-all duration-500 ${
                 i === active
-                  ? "scale-115 border-accent bg-accent text-white shadow-lg shadow-accent/30"
+                  ? "scale-115 border-ink bg-accent text-on-accent shadow-[2px_2px_0_var(--ink)]"
                   : "border-line bg-surface text-ink-2 hover:border-accent/50"
               }`}
               style={{ left: x, top: y }}
@@ -175,7 +180,7 @@ function Sprint() {
       <div>
         <div key={active} className="animate-slide-up" aria-live="polite">
           <p className="font-mono text-xs tracking-widest text-accent-ink uppercase">
-            Step {active + 1} of {sprint.length}
+            {fill(how.stepOf, { n: active + 1, count: sprint.length })}
           </p>
           <h4 className="mt-2 font-display text-3xl font-semibold text-ink">{sprint[active].step}</h4>
           <p className="mt-3 max-w-md text-lg leading-relaxed text-ink-2">{sprint[active].body}</p>
@@ -202,24 +207,28 @@ function Sprint() {
 }
 
 function AutoHint({ running }: { running: boolean }) {
+  const { t } = useT();
+  const how = t.work.how;
   return (
     <p className="mt-4 flex items-center gap-2 text-xs text-muted">
       <span className={`h-1.5 w-1.5 rounded-full ${running ? "bg-good" : "bg-muted/50"}`} />
-      {running ? "Playing automatically — click any step to explore" : "Click any step to explore"}
+      {running ? how.hintRunning : how.hintPaused}
     </p>
   );
 }
 
 export default function HowIWork() {
+  const { t } = useT();
+  const how = t.work.how;
   const [tab, setTab] = useState<"lifecycle" | "sprint">("lifecycle");
   const tabs = [
-    { key: "lifecycle", label: "Client lifecycle" },
-    { key: "sprint", label: "Two-week sprint" },
+    { key: "lifecycle", label: how.lifecycleTab },
+    { key: "sprint", label: how.sprintTab },
   ] as const;
 
   return (
     <div>
-      <div role="tablist" aria-label="How I work" className="mb-8 inline-flex rounded-full border border-line bg-surface p-1">
+      <div role="tablist" aria-label={how.tabsLabel} className="mb-8 inline-flex rounded-full border-[1.5px] border-ink bg-surface p-1">
         {tabs.map((t) => (
           <button
             key={t.key}

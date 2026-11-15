@@ -1,16 +1,19 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { site } from "@/lib/site-config";
 import { toggleTheme } from "@/lib/theme";
+import { fill } from "@/lib/content";
+import { LANGS, localePath, stripLang } from "@/lib/lang";
+import { useT } from "@/lib/i18n";
 import { OPEN_PALETTE_EVENT } from "@/components/Nav";
-import { ArrowRight, Download, LinkedIn, Mail, Search, Copy, Sparkles } from "@/components/Icons";
+import { ArrowRight, LinkedIn, Mail, Search, Copy, Sparkles } from "@/components/Icons";
 
 type Command = {
   id: string;
   label: string;
-  group: "Jump to" | "Actions";
+  group: string;
   hint?: string;
   icon: React.ComponentType<{ className?: string }>;
   run: () => void;
@@ -23,50 +26,51 @@ export default function CommandPalette() {
   const [toast, setToast] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const pathname = usePathname() ?? "/";
+  const { t, lang, href } = useT();
+  const p = t.palette;
 
   const commands: Command[] = useMemo(
     () => [
-      { id: "home", label: "Home", group: "Jump to", icon: ArrowRight, run: () => router.push("/") },
-      { id: "work", label: "Work — case studies & how I work", group: "Jump to", icon: ArrowRight, run: () => router.push("/work/") },
-      { id: "career", label: "Career & skills", group: "Jump to", icon: ArrowRight, run: () => router.push("/career/") },
-      { id: "certs", label: "Certificates", group: "Jump to", icon: ArrowRight, run: () => router.push("/certificates/") },
+      { id: "home", label: t.nav.home, group: p.jump, icon: ArrowRight, run: () => router.push(href("/")) },
+      { id: "work", label: p.work, group: p.jump, icon: ArrowRight, run: () => router.push(href("/work/")) },
+      { id: "career", label: p.career, group: p.jump, icon: ArrowRight, run: () => router.push(href("/career/")) },
+      { id: "certs", label: t.nav.certificates, group: p.jump, icon: ArrowRight, run: () => router.push(href("/certificates/")) },
       {
         id: "contact",
-        label: "Contact",
-        group: "Jump to",
+        label: t.nav.contact,
+        group: p.jump,
         icon: ArrowRight,
         run: () => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }),
       },
       {
-        id: "cv",
-        label: "Download CV (PDF)",
-        group: "Actions",
-        icon: Download,
-        run: () => {
-          const a = document.createElement("a");
-          a.href = site.cvFile;
-          a.download = site.cvDownloadName;
-          a.click();
-        },
-      },
-      {
         id: "copy",
-        label: "Copy email address",
-        group: "Actions",
+        label: p.copyEmail,
+        group: p.actions,
         hint: site.email,
         icon: Copy,
         run: () => {
           navigator.clipboard
             ?.writeText(site.email)
-            .then(() => setToast("Email copied"))
+            .then(() => setToast(p.emailCopied))
             .catch(() => (window.location.href = `mailto:${site.email}`));
         },
       },
-      { id: "mail", label: "Send an email", group: "Actions", icon: Mail, run: () => (window.location.href = `mailto:${site.email}`) },
-      { id: "li", label: "Open LinkedIn", group: "Actions", icon: LinkedIn, run: () => window.open(site.social.linkedin, "_blank", "noopener") },
-      { id: "theme", label: "Toggle light / dark theme", group: "Actions", icon: Sparkles, run: toggleTheme },
+      { id: "mail", label: p.sendEmail, group: p.actions, icon: Mail, run: () => (window.location.href = `mailto:${site.email}`) },
+      { id: "li", label: p.linkedin, group: p.actions, icon: LinkedIn, run: () => window.open(site.social.linkedin, "_blank", "noopener") },
+      { id: "theme", label: p.theme, group: p.actions, icon: Sparkles, run: toggleTheme },
+      {
+        id: "lang",
+        label: p.language,
+        group: p.actions,
+        icon: ArrowRight,
+        run: () => {
+          const other = LANGS.find((l) => l !== lang) ?? lang;
+          router.push(localePath(other, stripLang(pathname.endsWith("/") ? pathname : `${pathname}/`)));
+        },
+      },
     ],
-    [router],
+    [router, pathname, t, p, lang, href],
   );
 
   const results = useMemo(() => {
@@ -151,8 +155,8 @@ export default function CommandPalette() {
           <div
             role="dialog"
             aria-modal="true"
-            aria-label="Quick navigation"
-            className="animate-slide-up w-full max-w-lg overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl"
+            aria-label={p.label}
+            className="animate-slide-up w-full max-w-lg overflow-hidden rounded-2xl border-[1.5px] border-ink bg-surface shadow-[6px_6px_0_var(--ink)]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 border-b border-line px-4">
@@ -165,8 +169,8 @@ export default function CommandPalette() {
                   setCursor(0);
                 }}
                 onKeyDown={onInputKey}
-                placeholder="Search sections and actions…"
-                aria-label="Search sections and actions"
+                placeholder={p.placeholder}
+                aria-label={p.placeholder}
                 aria-activedescendant={results[cursor] ? `cmd-${results[cursor].id}` : undefined}
                 aria-controls="cmd-list"
                 className="h-14 flex-1 bg-transparent text-ink outline-none placeholder:text-muted focus-visible:outline-none"
@@ -177,7 +181,7 @@ export default function CommandPalette() {
             </div>
             <ul id="cmd-list" role="listbox" className="max-h-80 overflow-y-auto p-2">
               {results.length === 0 && (
-                <li className="px-3 py-8 text-center text-sm text-muted">Nothing matches “{query}”.</li>
+                <li className="px-3 py-8 text-center text-sm text-muted">{fill(p.empty, { query })}</li>
               )}
               {results.map((c, i) => {
                 const header = c.group !== lastGroup ? c.group : null;

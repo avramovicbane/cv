@@ -1,6 +1,7 @@
 "use client";
 
 import { toggleTheme } from "@/lib/theme";
+import { useT } from "@/lib/i18n";
 
 /**
  * No React state needed: both icons are always in the DOM and the `dark:`
@@ -8,13 +9,14 @@ import { toggleTheme } from "@/lib/theme";
  * layout.tsx) decides which one shows.
  */
 export default function ThemeToggle() {
+  const { t } = useT();
   return (
     <button
       type="button"
       onClick={toggleTheme}
-      aria-label="Toggle light and dark theme"
-      title="Toggle theme"
-      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-surface/60 text-ink-2 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent-ink"
+      aria-label={t.nav.theme}
+      title={t.nav.theme}
+      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-surface/60 text-ink-2 transition-all duration-300 hover:rotate-12 hover:border-ink hover:text-ink"
     >
       {/* Moon: shown in light mode — click to go dark */}
       <svg
