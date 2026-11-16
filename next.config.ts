@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // One 404 page for the whole site (app/global-not-found.tsx): the two
+  // languages have separate root layouts, so there is no shared one to use.
+  experimental: {
+    globalNotFound: true,
+  },
 };
 
 export default nextConfig;
